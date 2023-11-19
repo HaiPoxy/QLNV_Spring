@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KShop - Đăng nhập</title>
+        <link rel="stylesheet" href="./login.css" />
+        <script src="./login.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <b>KShop</b>
+            <a href="/pages/home.html">Trang chủ</a>
+            <a class="active">Đăng nhập</a>
+        </header>
+        <main>
+            <form id="login-form">
+                <div class="form-control form-field">
+                    <label for="username">Tài khoản</label>
+                    <input type="text" name="username" id="username" />
+                </div>
+                <div class="form-control form-field">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" name="password" id="password" />
+                </div>
+                <div class="form-control form-check">
+                    <input type="checkbox" name="remember-me" id="remember-me" />
+                    <label for="remember-me">Ghi nhớ</label>
+                </div>
+                <div class="form-control form-submit">
+                    <button type="submit">Đăng nhập</button>
+                </div>
+                <div class="form-control form-desc">
+                    <a href="/auth/reset.html">Quên mật khẩu?</a>
+                    or
+                    <a href="/auth/register.html">Đăng ký</a>
+                </div>
+            </form>
+        </main>
+        <footer>&copy; 2023 KShop. All rights reserved.</footer>
+    </body>
+</html>

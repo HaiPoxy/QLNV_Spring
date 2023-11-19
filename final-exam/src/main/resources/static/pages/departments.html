@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KShop - Quản lý phòng ban</title>
+        <link rel="stylesheet" href="./departments.css" />
+        <script src="https://kit.fontawesome.com/194acd46be.js" crossorigin="anonymous"></script>
+        <script src="./departments.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <b>KShop</b>
+            <a href="#">Trang chủ</a>
+            <a class="active">Phòng ban</a>
+            <a href="/pages/accounts.html">Nhân viên</a>
+            <a href="/auth/login.html">Đăng nhập</a>
+        </header>
+        <main>
+            <form id="filter-form">
+                <fieldset class="filters">
+                    <legend>Bộ lọc kết quả</legend>
+                    <div class="filter">
+                        Loại phòng ban:
+                        <select title="Loại phòng ban" name="type" id="type">
+                            <option value="" selected>Tất cả</option>
+                            <option value="DEVELOPER">Developer</option>
+                            <option value="TESTER">Tester</option>
+                            <option value="SCRUM_MASTER">Scrum Master</option>
+                            <option value="PROJECT_MANAGER">Project Manager</option>
+                        </select>
+                    </div>
+                    <div class="filter">
+                        Ngày tạo:
+                        <input
+                            type="date"
+                            name="min-created-date"
+                            id="min-created-date"
+                            placeholder="01/01/2020"
+                        />
+                        -
+                        <input
+                            type="date"
+                            name="max-created-date"
+                            id="max-created-date"
+                            placeholder="01/01/2025"
+                        />
+                    </div>
+                    <div class="filter">
+                        Số lượng nhân viên:
+                        <input
+                            type="number"
+                            name="min-total-members"
+                            id="min-total-members"
+                            placeholder="1"
+                        />
+                        -
+                        <input
+                            type="number"
+                            name="max-total-members"
+                            id="max-total-members"
+                            placeholder="5"
+                        />
+                    </div>
+                    <div class="filter">
+                        <input
+                            type="text"
+                            name="search"
+                            id="search"
+                            placeholder="Tìm kiếm phòng ban"
+                        />
+                        <button type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+            <div class="container">
+                <div class="actions">
+                    <button type="button" id="refresh">
+                        <i class="fa-solid fa-refresh"></i>
+                        Tải lại
+                    </button>
+                    <button type="button" id="add">
+                        <i class="fa-solid fa-plus"></i>
+                        Thêm mới
+                    </button>
+                    <button type="button" id="delete-all" disabled>
+                        <i class="fa-solid fa-trash-can"></i>
+                        Xóa tất cả
+                    </button>
+                </div>
+                <div class="data">
+                    <div class="table-container">
+                        <table>
+                            <thead id="thead" data-sort="createdAt,desc">
+                                <tr>
+                                    <th data-sort="id">
+                                        # <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="name">
+                                        Tên phòng ban <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="totalMembers">
+                                        Số lượng nhân viên <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="type">
+                                        Loại phòng ban <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="createdAt">
+                                        Thời gian tạo <i class="fa fa-solid fa-sort-down fa-xs"></i>
+                                    </th>
+                                    <th data-sort="updatedAt">
+                                        Cập nhật lúc <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                    <div id="loading">
+                        <div class="loading-icon"></div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    <div class="pagination-size">
+                        <select title="Số bản ghi mỗi trang" id="size">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>Bản ghi mỗi trang.</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button title="Trang đầu tiên" type="button" id="first-page">
+                            <i class="fa-solid fa-angles-left"></i>
+                        </button>
+                        <button title="Trang trước" type="button" id="prev-page">
+                            <i class="fa-solid fa-angle-left"></i>
+                        </button>
+                        <input title="Trang hiện tại" type="number" name="page" id="page" value="1" />
+                        <button title="Trang sau" type="button" id="next-page">
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                        <button title="Trang cuối cùng" type="button" id="last-page">
+                            <i class="fa-solid fa-angles-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>&copy; 2023 KShop. All rights reserved.</footer>
+        <dialog id="create-dialog">
+            <form method="dialog" id="create-form">
+                <h3>THÊM PHÒNG BAN</h3>
+                <div class="form-field">
+                    <label for="c-name">Tên phòng ban: </label>
+                    <input type="text" name="c-name" id="c-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-total-members">Số lượng nhân viên: </label>
+                    <input type="number" name="c-total-members" id="c-total-members" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-type">Loại phòng ban: </label>
+                    <select title="Loại phòng ban" name="c-type" id="c-type" required>
+                        <option value="DEVELOPER" selected>Developer</option>
+                        <option value="TESTER">Tester</option>
+                        <option value="SCRUM_MASTER">Scrum Master</option>
+                        <option value="PROJECT_MANAGER">Project Manager</option>
+                    </select>
+                </div>
+                <div class="form-submit">
+                    <button type="submit">Tạo mới</button>
+                    <button type="button" onclick="document.getElementById('create-dialog').close();">Hủy</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="update-dialog">
+            <form method="dialog" id="update-form">
+                <h3>CẬP NHẬT PHÒNG BAN</h3>
+                <div class="form-field">
+                    <label for="u-id">Mã phòng ban: </label>
+                    <input type="number" name="u-id" id="u-id" readonly disabled />
+                </div>
+                <div class="form-field">
+                    <label for="u-name">Tên phòng ban: </label>
+                    <input type="text" name="u-name" id="u-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="u-total-members">Số lượng nhân viên: </label>
+                    <input type="number" name="u-total-members" id="u-total-members" required />
+                </div>
+                <div class="form-field">
+                    <label for="u-type">Loại phòng ban: </label>
+                    <select title="Loại phòng ban" name="u-type" id="u-type" required>
+                        <option value="DEVELOPER">Developer</option>
+                        <option value="TESTER">Tester</option>
+                        <option value="SCRUM_MASTER">Scrum Master</option>
+                        <option value="PROJECT_MANAGER">Project Manager</option>
+                    </select>
+                </div>
+                <div class="form-submit">
+                    <button type="submit">Cập nhật</button>
+                    <button type="button" onclick="document.getElementById('update-dialog').close();">Hủy</button>
+                </div>
+            </form>
+        </dialog>
+        <div id="context-menu">
+            <button type="button" id="edit"><i class="fa-solid fa-pen"></i> Sửa</button>
+            <button type="button" id="delete"><i class="fa-solid fa-trash"></i> Xóa</button>
+        </div>
+    </body>
+</html>

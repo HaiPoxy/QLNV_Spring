@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KShop - Quản lý nhân viên</title>
+        <link rel="stylesheet" href="./accounts.css" />
+        <script src="https://kit.fontawesome.com/194acd46be.js" crossorigin="anonymous"></script>
+        <script src="./accounts.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <b>KShop</b>
+            <a href="#">Trang chủ</a>
+            <a href="/pages/departments.html">Phòng ban</a>
+            <a class="active">Nhân viên</a>
+            <a href="/auth/login.html">Đăng nhập</a>
+        </header>
+        <main>
+            <form id="filter-form">
+                <fieldset class="filters">
+                    <legend>Bộ lọc kết quả</legend>
+                    <div class="filter">
+                        Vai trò:
+                        <select title="Vai trò" name="role" id="role">
+                            <option value="" selected>Tất cả</option>
+                            <option value="ADMIN">Admin</option>
+                            <option value="MANAGER">Manager</option>
+                            <option value="EMPLOYEE">Employee</option>
+                        </select>
+                    </div>
+                    <div class="filter">
+                        Ngày tạo:
+                        <input
+                            type="date"
+                            name="min-created-date"
+                            id="min-created-date"
+                            placeholder="01/01/2020"
+                        />
+                        -
+                        <input
+                            type="date"
+                            name="max-created-date"
+                            id="max-created-date"
+                            placeholder="01/01/2025"
+                        />
+                    </div>
+                    <div class="filter">
+                        Mã nhân viên:
+                        <input
+                            type="number"
+                            name="min-id"
+                            id="min-id"
+                            placeholder="1"
+                        />
+                        -
+                        <input
+                            type="number"
+                            name="max-id"
+                            id="max-id"
+                            placeholder="5"
+                        />
+                    </div>
+                    <div class="filter">
+                        <input
+                            type="text"
+                            name="search"
+                            id="search"
+                            placeholder="Tìm kiếm nhân viên"
+                        />
+                        <button type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Tìm kiếm
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+            <div class="container">
+                <div class="actions">
+                    <button type="button" id="refresh">
+                        <i class="fa-solid fa-refresh"></i>
+                        Tải lại
+                    </button>
+                    <button type="button" id="add">
+                        <i class="fa-solid fa-plus"></i>
+                        Thêm mới
+                    </button>
+                    <button type="button" id="delete-all" disabled>
+                        <i class="fa-solid fa-trash-can"></i>
+                        Xóa tất cả
+                    </button>
+                </div>
+                <div class="data">
+                    <div class="table-container">
+                        <table>
+                            <thead id="thead" data-sort="createdAt,desc">
+                                <tr>
+                                    <th data-sort="id">
+                                        # <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="username">
+                                        Tài khoản <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="firstName">
+                                        Họ <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="lastName">
+                                        Tên <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="role">
+                                        Vai trò <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="createdAt">
+                                        Thời gian tạo <i class="fa fa-solid fa-sort-down fa-xs"></i>
+                                    </th>
+                                    <th data-sort="updatedAt">
+                                        Cập nhật lúc <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                    <th data-sort="department">
+                                        Phòng ban <i class="fa fa-solid fa-sort fa-xs"></i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody"></tbody>
+                        </table>
+                    </div>
+                    <div id="loading">
+                        <div class="loading-icon"></div>
+                    </div>
+                </div>
+                <div class="pagination">
+                    <div class="pagination-size">
+                        <select title="Số bản ghi mỗi trang" id="size">
+                            <option value="10" selected>10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                        <span>Bản ghi mỗi trang.</span>
+                    </div>
+                    <div class="pagination-controls">
+                        <button title="Trang đầu tiên" type="button" id="first-page">
+                            <i class="fa-solid fa-angles-left"></i>
+                        </button>
+                        <button title="Trang trước" type="button" id="prev-page">
+                            <i class="fa-solid fa-angle-left"></i>
+                        </button>
+                        <input title="Trang hiện tại" type="number" name="page" id="page" value="1" />
+                        <button title="Trang sau" type="button" id="next-page">
+                            <i class="fa-solid fa-angle-right"></i>
+                        </button>
+                        <button title="Trang cuối cùng" type="button" id="last-page">
+                            <i class="fa-solid fa-angles-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>&copy; 2023 KShop. All rights reserved.</footer>
+        <dialog id="create-dialog">
+            <form method="dialog" id="create-form">
+                <h3>THÊM NHÂN VIÊN</h3>
+                <div class="form-field">
+                    <label for="c-username">Tài khoản: </label>
+                    <input type="text" name="c-username" id="c-username" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-password">Mật khẩu: </label>
+                    <input type="password" name="c-password" id="c-password" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-first-name">Họ: </label>
+                    <input type="text" name="c-first-name" id="c-first-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-last-name">Tên: </label>
+                    <input type="text" name="c-last-name" id="c-last-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="c-role">Vai trò: </label>
+                    <select title="Vai trò" name="c-role" id="c-role" required>
+                        <option value="ADMIN">Admin</option>
+                        <option value="MANAGER">Manager</option>
+                        <option value="EMPLOYEE">Employee</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="c-department-id">Phòng ban: </label>
+                    <select title="Phòng ban" name="c-department-id" id="c-department-id">
+                        <option value="" selected>Chưa có</option>
+                    </select>
+                </div>
+                <div class="form-submit">
+                    <button type="submit">Tạo mới</button>
+                    <button type="button" onclick="document.getElementById('create-dialog').close();">Hủy</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="update-dialog">
+            <form method="dialog" id="update-form">
+                <h3>CẬP NHẬT NHÂN VIÊN</h3>
+                <div class="form-field">
+                    <label for="u-id">Mã nhân viên: </label>
+                    <input type="number" name="u-id" id="u-id" readonly disabled />
+                </div>
+                <div class="form-field">
+                    <label for="u-username">Tài khoản: </label>
+                    <input type="text" name="u-username" id="u-username" readonly disabled />
+                </div>
+                <div class="form-field">
+                    <label for="u-password">Mật khẩu: </label>
+                    <input type="password" name="u-password" id="u-password" required />
+                </div>
+                <div class="form-field">
+                    <label for="u-first-name">Họ: </label>
+                    <input type="text" name="u-first-name" id="u-first-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="u-last-name">Tên: </label>
+                    <input type="text" name="u-last-name" id="u-last-name" required />
+                </div>
+                <div class="form-field">
+                    <label for="u-role">Vai trò: </label>
+                    <select title="Vai trò" name="u-role" id="u-role" required>
+                        <option value="ADMIN">Admin</option>
+                        <option value="MANAGER">Manager</option>
+                        <option value="EMPLOYEE">Employee</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label for="u-department-id">Phòng ban: </label>
+                    <select title="Phòng ban" name="u-department-id" id="u-department-id">
+                        <option value="" selected>Chưa có</option>
+                    </select>
+                </div>
+                <div class="form-submit">
+                    <button type="submit">Cập nhật</button>
+                    <button type="button" onclick="document.getElementById('update-dialog').close();">Hủy</button>
+                </div>
+            </form>
+        </dialog>
+        <div id="context-menu">
+            <button type="button" id="edit"><i class="fa-solid fa-pen"></i> Sửa</button>
+            <button type="button" id="delete"><i class="fa-solid fa-trash"></i> Xóa</button>
+        </div>
+    </body>
+</html>

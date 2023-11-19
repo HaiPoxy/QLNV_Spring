@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>KShop - Đăng ký</title>
+        <link rel="stylesheet" href="./register.css" />
+        <script src="./register.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <b>KShop</b>
+            <a href="/pages/home.html">Trang chủ</a>
+            <a class="active">Đăng ký</a>
+        </header>
+        <main>
+            <form id="register-form">
+                <div class="form-control form-field">
+                    <label for="first-name">Họ</label>
+                    <input type="text" name="first-name" id="first-name" />
+                </div>
+                <div class="form-control form-field">
+                    <label for="last-name">Tên</label>
+                    <input type="text" name="last-name" id="last-name" />
+                </div>
+                <div class="form-control form-field">
+                    <label for="username">Tài khoản</label>
+                    <input type="text" name="username" id="username" />
+                </div>
+                <div class="form-control form-field">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" name="password" id="password" />
+                </div>
+                <div class="form-control form-field">
+                    <label for="role">Vai trò</label>
+                    <select title="Vai trò" name="role" id="role">
+                        <option value="ADMIN">Admin</option>
+                        <option value="MANAGER">Manager</option>
+                        <option value="EMPLOYEE">Employee</option>
+                    </select>
+                </div>
+                <div class="form-control form-submit">
+                    <button type="submit">Đăng ký</button>
+                </div>
+                <div class="form-control form-desc">
+                    <a href="/auth/login.html">Đã có tài khoản? Đăng nhập</a>
+                </div>
+            </form>
+        </main>
+        <footer>&copy; 2023 KShop. All rights reserved.</footer>
+    </body>
+</html>

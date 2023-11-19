@@ -1,0 +1,114 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+header > b {
+    font-size: 4em;
+    font-family: "Courier New", Courier, monospace;
+    color: dodgerblue;
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+header > a {
+    text-decoration: none;
+    padding: 12px 16px;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: palevioletred;
+    position: relative;
+}
+
+header > a:not(.active)::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+    transition: transform 200ms ease-in-out;
+    border-bottom: 4px solid palevioletred;
+}
+
+header > a:not(.active):hover::after {
+    transform: scaleX(1);
+}
+
+header > a.active {
+    color: dodgerblue;
+}
+
+header > a.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 4px solid dodgerblue;
+}
+
+footer {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: green;
+    background-color: whitesmoke;
+}
+
+main {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main > form {
+    border-radius: 8px;
+    padding: 48px 32px;
+    box-shadow: 2px 2px 10px lightgrey;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+main > form .form-field {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+}
+
+main > form .form-field input {
+    border: none;
+    background-color: #ddd;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+main > form .form-submit {
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+main > form .form-desc {
+    text-align: center;
+}
+
+main > form .form-desc a {
+    text-decoration: none;
+    color: dodgerblue;
+}

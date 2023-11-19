@@ -1,0 +1,252 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+
+header {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    background-color: whitesmoke;
+}
+
+header > b {
+    font-size: 4em;
+    font-family: "Courier New", Courier, monospace;
+    color: dodgerblue;
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+header > a {
+    text-decoration: none;
+    padding: 12px 16px;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: palevioletred;
+    position: relative;
+}
+
+header > a:not(.active)::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+    transition: transform 200ms ease-in-out;
+    border-bottom: 4px solid palevioletred;
+}
+
+header > a:not(.active):hover::after {
+    transform: scaleX(1);
+}
+
+header > a.active {
+    color: dodgerblue;
+}
+
+header > a.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 4px solid dodgerblue;
+}
+
+footer {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25em;
+    font-weight: bold;
+    color: green;
+    background-color: whitesmoke;
+}
+
+main {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+main > form {
+    width: 80%;
+}
+
+main > form .filters {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 16px;
+    padding: 16px;
+}
+
+main > form .filter {
+    flex: auto;
+}
+
+main > form input[type="number"] {
+    width: 40px;
+}
+
+main > .container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+main > .container .data {
+    position: relative;
+    width: 100%;
+}
+
+main > .container #loading {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main > .container .loading-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border-width: 4px;
+    border-style: solid;
+    border-color: palevioletred transparent;
+    animation: rotate 400ms linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+main > .container .table-container {
+    height: 45vh;
+    border: 1px solid lightgrey;
+    overflow-y: scroll;
+    margin-top: 1px;
+}
+
+main > .container table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+main > .container thead {
+    position: sticky;
+    top: 0;
+    color: orangered;
+    background-color: antiquewhite;
+}
+
+main > .container tbody tr {
+    transition: background-color 200ms;
+}
+
+main > .container tbody tr:nth-child(even) {
+    background-color: floralwhite;
+}
+
+main > .container th,
+main > .container td {
+    padding: 8px 12px;
+}
+
+main > .container th {
+    border-right: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+
+main > .container td {
+    border-bottom: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+}
+
+main > .container tbody tr:hover,
+main > .container thead th:hover {
+    background-color: cornsilk;
+}
+
+main > .container tbody tr.selected {
+    background-color: palegreen;
+}
+
+main > .container .pagination {
+    display: flex;
+    gap: 24px;
+    margin-top: 8px;
+}
+
+main > .container input {
+    width: 30px;
+    text-align: center;
+}
+
+dialog {
+    padding: 16px 32px;
+    border: none;
+    box-shadow: 1px 1px 10px 5px grey;
+}
+
+dialog h3 {
+    text-align: center;
+}
+
+dialog .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+dialog .form-field input,
+dialog .form-field select {
+    border: none;
+    background-color: #f0f0f0;
+    padding: 4px;
+}
+
+dialog .form-submit {
+    text-align: end;
+    margin-top: 16px;
+}
+
+#context-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    position: absolute;
+    padding: 8px 0;
+    border-radius: 8px;
+    background-color: #f0f0f0;
+    box-shadow: 1px 1px 5px grey;
+}
+
+#context-menu button {
+    padding: 4px 16px;
+    border: none;
+}
+
+#context-menu button:hover {
+    background-color: lightgrey;
+}
